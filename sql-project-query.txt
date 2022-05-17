@@ -1,0 +1,48 @@
+/* Query 1 */
+SELECT SUM(inl.UnitPrice) AS total_Income , al.Title AS Album_name
+FROM InvoiceLine inl
+JOIN Track t
+ON t.TrackId = inl.TrackId
+JOIN Album al
+ON al.AlbumId = t.AlbumId
+GROUP BY 2
+ORDER BY 1 DESC
+LIMIT 10
+
+----------------------------------------
+
+/* Query 2 */
+SELECT mt.Name AS Media_Type , COUNT(t.TrackId) AS Number_of_Tracks
+FROM MediaType mt
+JOIN Track t
+ON t.MediaTypeId = mt.MediaTypeId
+GROUP BY 1
+ORDER BY 2 DESC
+
+----------------------------------------
+
+/* Query 3 */
+SELECT  gen.Name AS Genre , COUNT(gen.GenreId) AS Number_of_preferred_genre
+FROM Customer cust
+JOIN Invoice inv
+ON inv.CustomerId = cust.CustomerId
+JOIN InvoiceLine inl
+ON inl.InvoiceId = inv.InvoiceId
+JOIN Track t
+ON t.TrackId = inl.TrackId
+JOIN Genre gen
+ON gen.GenreId = t.GenreId
+WHERE cust.Country = 'USA'
+GROUP BY 1 
+ORDER BY 2 DESC
+LIMIT 10
+
+----------------------------------------
+
+/* Query 4 */
+SELECT emp.EmployeeId , emp.FirstName , emp.LastName , COUNT(cust.CustomerId) AS Number_of_customers
+FROM Employee emp
+JOIN Customer cust
+ON cust.SupportRepId = emp.EmployeeId
+GROUP BY 1
+ORDER BY 4 DESC
